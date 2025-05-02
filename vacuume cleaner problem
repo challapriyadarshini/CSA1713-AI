@@ -1,0 +1,56 @@
+class VacuumCleaner:
+    def __init__(self, grid, start_row, start_col):
+        self.grid = grid  # 2D grid representing the environment
+        self.row = start_row  # Starting row position
+        self.col = start_col  # Starting column position
+        self.cleaned = 0  # Number of cells cleaned
+
+    def clean(self):
+        # Start cleaning from the initial position
+        if self.grid[self.row][self.col] == 1:
+            self.grid[self.row][self.col] = 0  # Clean the current cell
+            self.cleaned += 1
+            print(f"Cleaned cell at ({self.row}, {self.col})")
+
+    def move(self, direction):
+        # Move the vacuum cleaner in the given direction (up, down, left, right)
+        if direction == "up" and self.row > 0:
+            self.row -= 1
+        elif direction == "down" and self.row < len(self.grid) - 1:
+            self.row += 1
+        elif direction == "left" and self.col > 0:
+            self.col -= 1
+        elif direction == "right" and self.col < len(self.grid[0]) - 1:
+            self.col += 1
+
+    def simulate(self, directions):
+        for direction in directions:
+            self.move(direction)
+            self.clean()
+
+    def get_cleaned_cells(self):
+        return self.cleaned
+
+    def print_grid(self):
+        for row in self.grid:
+            print(row)
+
+# Example grid: 1 represents dirty cell, 0 represents clean cell
+grid = [
+    [1, 0, 1, 0],
+    [1, 1, 1, 0],
+    [0, 1, 0, 1],
+    [0, 0, 1, 1]
+]
+
+vacuum = VacuumCleaner(grid, 0, 0)  # Start at the top-left corner (0, 0)
+vacuum.print_grid()
+
+# Simulate vacuum cleaner movements
+directions = ["right", "down", "down", "left", "left", "up", "right", "right"]
+vacuum.simulate(directions)
+
+# Print the final cleaned grid and how many cells were cleaned
+vacuum.print_grid()
+print(f"Total cleaned cells: {vacuum.get_cleaned_cells()}")
+
